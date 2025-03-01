@@ -12,7 +12,7 @@ public class Grammar {
         this.nonLiterals = nonLiterals;
     }
     /*public int generateId(){
-
+        ??
     }*/
     public ArrayList<Character> getLiterals() {
         return literals;
@@ -30,7 +30,7 @@ public class Grammar {
         this.nonLiterals = nonLiterals;
     }
 
-    void addGrammar(ArrayList<Grammar> grammars){
+    public static void addGrammar(ArrayList<Grammar> grammars){
         Scanner scanner = new Scanner(System.in);
         ArrayList<Character> literals = new ArrayList<>();
         ArrayList<Character> nonLiterals = new ArrayList<>();
@@ -54,4 +54,9 @@ public class Grammar {
         Grammar grammar = new Grammar(literals,nonLiterals);
         grammars.add(grammar);
     }
+    //printGrammar
+    //removeGrammar()
+    //editGrammar()??
+    //addRule()
+    //modifyRule()
 }

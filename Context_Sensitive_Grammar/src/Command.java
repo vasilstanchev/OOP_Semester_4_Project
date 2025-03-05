@@ -34,6 +34,7 @@ public class Command {
     }
     public static void help(){
         System.out.println("List of available commands:");
+        System.out.printf("\tlist - prints the ids for all the entered grammars\n");
         System.out.printf("\tprint <id> - prints info about the given grammar matched to the id\n");
         System.out.printf("\taddGrammar - adds a new grammar with unique id\n");
         System.out.printf("\taddRule <id> <rule> - adds a new rule to the given grammar\n");

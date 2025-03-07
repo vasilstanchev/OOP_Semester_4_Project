@@ -5,12 +5,14 @@ public class Grammar {
     private int id;
     private ArrayList<Character> terminals;
     private ArrayList<Character> nonTerminals;
-    //private ArrayList<Rule> rules;
-    Grammar(ArrayList<Character> terminals, ArrayList<Character> nonLiterals){
+    private ArrayList<Rules> rules;
+    private ArrayList<String> language;
+    Grammar(ArrayList<Character> terminals){
         //id = generateId();
         setTerminals(terminals);
-        setNonTerminals(nonTerminals);
-        //rules = new ArrayList();
+        nonTerminals = new ArrayList<>();
+        rules = new ArrayList();
+        language = new ArrayList<>();
     }
     /*public int generateId(){
         ??
@@ -37,8 +39,6 @@ public class Grammar {
         ArrayList<Character> nonTerminals = new ArrayList<>();
         System.out.println("Enter the number of terminals you want to add:");
         int count1 = Integer.parseInt(scanner.nextLine());
-        System.out.println("Enter the number of non terminals you want to add:");
-        int count2 = Integer.parseInt(scanner.nextLine());
 
         for (int i = 0; i < count1; i++)
         {
@@ -46,13 +46,7 @@ public class Grammar {
             char terminal = scanner.next().charAt(0);
             terminals.add(terminal);
         }
-        for (int j = 0; j < count2; j++)
-        {
-            System.out.println("Enter a non literal to add:");
-            char nonTerminal = scanner.next().charAt(0);
-            nonTerminals.add(nonTerminal);
-        }
-        Grammar grammar = new Grammar(terminals, nonTerminals);
+        Grammar grammar = new Grammar(terminals);
         grammars.add(grammar);
     }
     public void printGrammar(){
@@ -60,7 +54,7 @@ public class Grammar {
         ArrayList<Character> terminals = this.getTerminals();
         ArrayList<Character> nonTerminals = this.getNonTerminals();
 
-        //unique id show
+        // System.out.println("Id: %d", id);
 
         System.out.println("Terminals:");
         System.out.printf("{ ");
@@ -78,11 +72,28 @@ public class Grammar {
         System.out.printf("}");
         System.out.println();
 
-        //rules show
+        System.out.println("Rules:");
+
+        System.out.println("Words inside the language:");
+        System.out.printf("{ ");
+        for (int i = 0; i < language.size(); i++) {
+            System.out.printf("%s ",language.get(i));
+        }
+        System.out.printf("}");
+        System.out.println();
+    }
+    public void addRule(String describingPart){
+        if (rules.isEmpty()){
+            Rules rule = new Rules(1,'S', describingPart);
+            rules.add(rule);
+        }
+        else {
+            int number = rules.size() + 1;
+            //tba
+        }
     }
     //listId() - show all the ids to the corresponding grammars
     //removeGrammar()
     //editGrammar() - without terminals
-    //addRule()
     //modifyRule()
 }

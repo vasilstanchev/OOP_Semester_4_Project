@@ -1,8 +1,9 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        ArrayList<Grammar> grammars = new ArrayList<>();
+        List<Grammar> grammars = new ArrayList<>();
         Command.instructions(grammars);
     }
 }

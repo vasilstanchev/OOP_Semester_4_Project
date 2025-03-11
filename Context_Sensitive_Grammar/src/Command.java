@@ -1,16 +1,23 @@
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Command {
-    public static void instructions(ArrayList<Grammar> grammars){
+    public static void instructions(List<Grammar> grammars){
         Scanner scanner = new Scanner(System.in);
+        String commandLine = "";
         String commandName = "";
         System.out.println("Type help to see the available commands:");
         while(!commandName.contains("exit")){
             System.out.println("Enter command:");
-            commandName = scanner.nextLine();
+            commandLine = scanner.nextLine();
+            String[] commandElements = commandLine.split(" ");
+            commandName = commandElements[0];
             if (commandName.contains("help")){
                 Command.help();
+            }
+            else if (commandName.contains("list")){
+                Grammar.listIds(grammars);
             }
             else if (commandName.contains("print")){
                 //tba
@@ -19,13 +26,19 @@ public class Command {
                 Grammar.addGrammar(grammars);
             }
             else if (commandName.contains("addRule")){
-                //tba
+                int id = Integer.parseInt(commandElements[1]);
+                String describingPart = commandElements[2];
+                for (int i = 0; i < grammars.size(); i++) {
+                    if(grammars.get(i).getId() == id){
+                        grammars.get(i).addRule(describingPart);
+                    }
+                }
             }
             else if (commandName.contains("removeRule")){
                 //tba
             }
             else if (commandName.contains("exit")){
-                System.out.println("Goodbye!!");
+                System.out.println("Exiting the program...");
             }
             else{
                 System.out.println("Enter a valid command. Type help to see the full list!");

@@ -19,8 +19,15 @@ public class Command {
             else if (commandName.contains("list")){
                 Grammar.listIds(grammars);
             }
-            else if (commandName.contains("print")){
-                //tba
+            else if (commandName.contains("printAll")){
+                if (grammars.isEmpty()){
+                    System.out.println("There aren't any grammars entered");
+                }
+                else{
+                    for (int i = 0; i < grammars.size(); i++) {
+                        grammars.get(i).printGrammar();
+                    }
+                }
             }
             else if (commandName.contains("addGrammar")){
                 Grammar.addGrammar(grammars);
@@ -49,6 +56,7 @@ public class Command {
         System.out.println("List of available commands:");
         System.out.printf("\tlist - prints the ids for all the entered grammars\n");
         System.out.printf("\tprint <id> - prints info about the given grammar matched to the id\n");
+        System.out.printf("\tprintAll - prints info about every entered grammar\n");
         System.out.printf("\taddGrammar - adds a new grammar with unique id\n");
         System.out.printf("\taddRule <id> <rule> - adds a new rule to the given grammar\n");
         System.out.printf("\tremoveRule <id> <n> - removes a rule to the given grammar\n");

@@ -19,6 +19,24 @@ public class Command {
             else if (commandName.contains("list")){
                 Grammar.listIds(grammars);
             }
+            else if (commandName.contains("print")){
+                if (grammars.isEmpty()){
+                    System.out.println("There aren't any grammars entered");
+                }
+                else{
+                    int id = Integer.parseInt(commandElements[1]);
+                    boolean isTrue = false;
+                    for (int i = 0; i < grammars.size(); i++) {
+                        if (grammars.get(i).getId() == id){
+                            grammars.get(i).printGrammar();
+                            isTrue = true;
+                        }
+                    }
+                    if (!isTrue){
+                        System.out.println("The entered id doesn't match any grammar");
+                    }
+                }
+            }
             else if (commandName.contains("printAll")){
                 if (grammars.isEmpty()){
                     System.out.println("There aren't any grammars entered");
@@ -44,6 +62,10 @@ public class Command {
             else if (commandName.contains("removeRule")){
                 //tba
             }
+            else if (commandName.contains("empty")){
+                int id = Integer.parseInt(commandElements[1]);
+                Grammar.isLanguageEmpty(grammars, id);
+            }
             else if (commandName.contains("exit")){
                 System.out.println("Exiting the program...");
             }
@@ -60,6 +82,7 @@ public class Command {
         System.out.printf("\taddGrammar - adds a new grammar with unique id\n");
         System.out.printf("\taddRule <id> <rule> - adds a new rule to the given grammar\n");
         //System.out.printf("\tremoveRule <id> <n> - removes a rule to the given grammar\n");
+        System.out.printf("\tempty <id> - check whether the language in a given grammar is empty\n");
         System.out.printf("\thelp - lists all available commands\n");
         System.out.printf("\texit - exits the program\n");
     }

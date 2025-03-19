@@ -178,6 +178,15 @@ public class Grammar {
             grammars.get(i).listId();
         }
     }
+    public static void isLanguageEmpty(List<Grammar> grammars, int id){
+        for (int i = 0; i < grammars.size(); i++) {
+            if (grammars.get(i).getId() == id){
+                if (grammars.get(i).getLanguage().isEmpty()){
+                    System.out.println("The language in this grammar is empty");
+                }
+            }
+        }
+    }
     //removeGrammar()
     //addWord() - tba
 }

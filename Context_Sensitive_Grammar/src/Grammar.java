@@ -16,7 +16,7 @@ public class Grammar {
     public int generateId(){
         Random random = new Random();
         int minNum = 1;
-        int maxNum = 100;
+        int maxNum = 1000;
         return random.nextInt(maxNum - minNum + 1) + minNum;
     }
     public int getId() {
@@ -128,12 +128,22 @@ public class Grammar {
             System.out.println();
         }
     }
+    private void extractNonTerminal(String describingPart){
+        for (char letter : describingPart.toCharArray()) {
+            if (Character.isUpperCase(letter)){
+                if (!nonTerminals.contains(letter)) {
+                    nonTerminals.add(letter);
+                }
+            }
+        }
+    }
     public void addRule(String describingPart){
         Scanner scanner = new Scanner(System.in);
-        if (this.getRules().isEmpty()){
+        if (rules.isEmpty()){
             Rules rule = new Rules(1,'S', describingPart);
             rules.add(rule);
             nonTerminals.add('S');
+            this.extractNonTerminal(describingPart);
         }
         else {
             int number = rules.size() + 1;
@@ -146,12 +156,17 @@ public class Grammar {
             System.out.println();
 
             char nonTerminal = scanner.next().charAt(0);
-            if (nonTerminals.equals(nonTerminal)){
-                Rules rule = new Rules(number, nonTerminal, describingPart);
-                this.rules.add(rule);
+            boolean isTrue = false;
+            for (int i = 0; i < nonTerminals.size(); i++){
+                if (nonTerminals.get(i).equals(nonTerminal)){
+                    Rules rule = new Rules(number, nonTerminal, describingPart);
+                    rules.add(rule);
+                    this.extractNonTerminal(describingPart);
+                    isTrue = true;
+                }
             }
-            else {
-                System.out.println("The non terminal is not present. Rule not added.");
+            if (!isTrue) {
+                System.out.println("The non-terminal is not inside the list of non-terminals, the rule was not added");
             }
         }
     }
@@ -164,6 +179,5 @@ public class Grammar {
         }
     }
     //removeGrammar()
-    //editGrammar() - without terminals
-    //modifyRule()
+    //addWord() - tba
 }

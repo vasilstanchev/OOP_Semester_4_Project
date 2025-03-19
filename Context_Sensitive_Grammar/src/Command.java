@@ -59,7 +59,7 @@ public class Command {
         System.out.printf("\tprintAll - prints info about every entered grammar\n");
         System.out.printf("\taddGrammar - adds a new grammar with unique id\n");
         System.out.printf("\taddRule <id> <rule> - adds a new rule to the given grammar\n");
-        System.out.printf("\tremoveRule <id> <n> - removes a rule to the given grammar\n");
+        //System.out.printf("\tremoveRule <id> <n> - removes a rule to the given grammar\n");
         System.out.printf("\thelp - lists all available commands\n");
         System.out.printf("\texit - exits the program\n");
     }

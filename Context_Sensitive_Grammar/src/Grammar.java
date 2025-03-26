@@ -128,6 +128,11 @@ public class Grammar {
             System.out.println();
         }
     }
+    public static void printRules(List<Rules> rules){
+        for (int i = 0; i < rules.size(); i++) {
+            rules.get(i).printRuleInfo();
+        }
+    }
     private void extractNonTerminal(String describingPart){
         for (char letter : describingPart.toCharArray()) {
             if (Character.isUpperCase(letter)){
@@ -187,6 +192,51 @@ public class Grammar {
             }
         }
     }
+    private int showRulesWithS(){
+        Scanner scanner = new Scanner(System.in);
+        int number = 0;
+        System.out.println("Choose between these rules to begin the word:");
+        for (int i = 0; i < rules.size(); i++) {
+            if(rules.get(i).getNonTerminal() == 'S'){
+                rules.get(i).printRuleInfo();
+            }
+        }
+
+        System.out.println("Number: ");
+        number = Integer.parseInt(scanner.nextLine());
+        for (int i = 0; i < rules.size(); i++) {
+            if(rules.get(i).getNonTerminal() == 'S' && rules.get(i).getNumber() == number){
+                return rules.get(i).getNumber();
+            }
+        }
+        return 0;
+    }
+    public void addWord(){
+        Scanner scanner = new Scanner(System.in);
+        boolean isPossible = Rules.checkForFinal(rules);
+        if (isPossible) {
+            int number = showRulesWithS();
+            Rules rule = Rules.getRuleByNumber(rules, number);
+            String word = rule.getDescribingPart();
+            do {
+                System.out.printf("Current word: %s\n", word);
+                Grammar.printRules(rules);
+                System.out.println("Enter the number of the rule you want to use:");
+                number = Integer.parseInt(scanner.nextLine());
+                rule = Rules.getRuleByNumber(rules, number);
+                if (rule == null){
+                    System.out.println("Rule doesn't exist");
+                }
+                else{
+                    word = Rules.connectTerminals(rule,word);
+                }
+            } while (!rule.getDescribingPart().equals("final"));
+            language.add(word);
+        }
+        else{
+            System.out.println("There isn't any end rule");
+        }
+    }
     //removeGrammar()
-    //addWord() - tba
+
 }

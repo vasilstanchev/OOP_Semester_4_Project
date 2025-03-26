@@ -8,7 +8,7 @@ public class Command {
         String commandLine = "";
         String commandName = "";
         System.out.println("Type help to see the available commands:");
-        while(!commandName.contains("exit")){
+        while(!commandName.contains("exit")){ // to be optimized neither switch or if-else
             System.out.println("Enter command:");
             commandLine = scanner.nextLine();
             String[] commandElements = commandLine.split(" ");
@@ -59,6 +59,14 @@ public class Command {
                     }
                 }
             }
+            else if (commandName.contains("addWord")){
+                int id = Integer.parseInt(commandElements[1]);
+                for (int i = 0; i < grammars.size(); i++) {
+                    if(grammars.get(i).getId() == id){
+                        grammars.get(i).addWord();
+                    }
+                }
+            }
             else if (commandName.contains("removeRule")){
                 //tba
             }
@@ -81,6 +89,7 @@ public class Command {
         System.out.printf("\tprintAll - prints info about every entered grammar\n");
         System.out.printf("\taddGrammar - adds a new grammar with unique id\n");
         System.out.printf("\taddRule <id> <rule> - adds a new rule to the given grammar\n");
+        System.out.printf("\taddWord <id> - adds a new word to the given grammar\n");
         //System.out.printf("\tremoveRule <id> <n> - removes a rule to the given grammar\n");
         System.out.printf("\tempty <id> - check whether the language in a given grammar is empty\n");
         System.out.printf("\thelp - lists all available commands\n");

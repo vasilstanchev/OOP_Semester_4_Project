@@ -39,9 +39,9 @@ public class Rules {
         return stringBuilder.toString();
     }
 
-    /*void printRuleInfo(){
+    void printRuleInfo(){
         System.out.println(this.toString());
-    }*/
+    }
     public static Rules getRuleByNumber(List<Rules> rules, int number){
         for (int i = 0; i < rules.size(); i++) {
             if (rules.get(i).getNumber() == number){

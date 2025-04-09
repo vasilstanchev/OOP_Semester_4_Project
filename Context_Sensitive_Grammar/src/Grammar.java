@@ -90,43 +90,51 @@ public class Grammar {
         }
         return nullValidator;
     }
-    public void printGrammar(){
-        System.out.printf("Id: %d\n", id);
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(String.format("Id: %d\n", id));
         Boolean[] nullValidator = validateGrammar(terminals, nonTerminals, rules, language);
 
         if (nullValidator[0] == false){
-            System.out.println("Terminals:");
-            System.out.printf("{ ");
+            stringBuilder.append("Terminals:\n");
+            stringBuilder.append("{ ");
             for (int i = 0; i < terminals.size(); i++) {
-                System.out.printf("%c ",terminals.get(i));
+                stringBuilder.append(String.format("%c ",terminals.get(i)));
             }
-            System.out.printf("}");
-            System.out.println();
+            stringBuilder.append("}");
+            stringBuilder.append("\n");
         }
         if (nullValidator[1] == false) {
-            System.out.println("Non-Terminals:");
-            System.out.printf("{ ");
+            stringBuilder.append("Non-Terminals:\n");
+            stringBuilder.append("{ ");
             for (int i = 0; i < nonTerminals.size(); i++) {
-                System.out.printf("%c ", nonTerminals.get(i));
+                stringBuilder.append(String.format("%c ", nonTerminals.get(i)));
             }
-            System.out.printf("}");
-            System.out.println();
+            stringBuilder.append("}");
+            stringBuilder.append("\n");
         }
         if (nullValidator[2] == false) {
-            System.out.println("Rules:");
+            stringBuilder.append("Rules:\n");
             for (int i = 0; i < rules.size(); i++) {
-                rules.get(i).printRuleInfo();
+                stringBuilder.append(rules.get(i).toString());
             }
         }
         if (nullValidator[3] == false) {
-            System.out.println("Words inside the language:");
-            System.out.printf("{ ");
+            stringBuilder.append("Words inside the language:\n");
+            stringBuilder.append("{ ");
             for (int i = 0; i < language.size(); i++) {
-                System.out.printf("%s ", language.get(i));
+                stringBuilder.append(String.format("%s ", language.get(i)));
             }
-            System.out.printf("}");
-            System.out.println();
+            stringBuilder.append("}");
+            stringBuilder.append("\n");
         }
+        return stringBuilder.toString();
+    }
+
+    public void printGrammar(){//abstract
+        System.out.println(this.toString());
     }
     public static void printRules(List<Rules> rules){
         for (int i = 0; i < rules.size(); i++) {

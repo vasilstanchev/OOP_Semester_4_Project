@@ -29,11 +29,19 @@ public class Rules {
     public void setDescribingPart(String describingPart) {
         this.describingPart = describingPart;
     }
-    void printRuleInfo(){
-        System.out.printf("Rule №%d: ", this.getNumber());
-        System.out.printf("%c -> %s", this.getNonTerminal(), this.getDescribingPart());
-        System.out.println();
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(String.format("Rule №%d: ", this.getNumber()));
+        stringBuilder.append(String.format("%c -> %s", this.getNonTerminal(), this.getDescribingPart()));
+        stringBuilder.append("\n");
+        return stringBuilder.toString();
     }
+
+    /*void printRuleInfo(){
+        System.out.println(this.toString());
+    }*/
     public static Rules getRuleByNumber(List<Rules> rules, int number){
         for (int i = 0; i < rules.size(); i++) {
             if (rules.get(i).getNumber() == number){

@@ -1,9 +1,8 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Command {
-    public static void instructions(List<Grammar> grammars){
+    public static void instructions(List<ContextSensitiveGrammar> grammars){
         Scanner scanner = new Scanner(System.in);
         String commandLine = "";
         String commandName = "";
@@ -17,7 +16,7 @@ public class Command {
                 Command.help();
             }
             else if (commandName.contains("list")){
-                Grammar.listIds(grammars);
+                ContextSensitiveGrammar.listIds(grammars);
             }
             else if (commandName.contains("print")){
                 if (grammars.isEmpty()){
@@ -28,7 +27,7 @@ public class Command {
                     boolean isTrue = false;
                     for (int i = 0; i < grammars.size(); i++) {
                         if (grammars.get(i).getId() == id){
-                            grammars.get(i).printGrammar();
+                            PrintGrammar.execute(grammars.get(i));
                             isTrue = true;
                         }
                     }
@@ -43,12 +42,12 @@ public class Command {
                 }
                 else{
                     for (int i = 0; i < grammars.size(); i++) {
-                        grammars.get(i).printGrammar();
+                        PrintGrammar.execute(grammars.get(i));
                     }
                 }
             }
             else if (commandName.contains("addGrammar")){
-                Grammar.addGrammar(grammars);
+                ContextSensitiveGrammar.addGrammar(grammars);
             }
             else if (commandName.contains("addRule")){
                 int id = Integer.parseInt(commandElements[1]);
@@ -72,7 +71,7 @@ public class Command {
             }
             else if (commandName.contains("empty")){
                 int id = Integer.parseInt(commandElements[1]);
-                Grammar.isLanguageEmpty(grammars, id);
+                ContextSensitiveGrammar.isLanguageEmpty(grammars, id);
             }
             else if (commandName.contains("exit")){
                 System.out.println("Exiting the program...");

@@ -3,7 +3,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Grammar> grammars = new ArrayList<>();
+        List<ContextSensitiveGrammar> grammars = new ArrayList<>();
         Command.instructions(grammars);
     }
 }

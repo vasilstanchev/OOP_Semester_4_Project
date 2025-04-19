@@ -1,6 +1,10 @@
-import java.util.List;
+package commands;
 
-public class PrintGrammar {
+import java.util.List;
+import grammar.ContextSensitiveGrammar;
+import grammar.Rules;
+
+public class PrintGrammar extends Command{
     private static Boolean[] validateGrammar(List<Character> terminals, List<Character> nonTerminals, List<Rules> rules, List<String> language){
         Boolean[] nullValidator = new Boolean[4];
         nullValidator[0] = false;
@@ -58,7 +62,7 @@ public class PrintGrammar {
             stringBuilder.append("\n");
         }
         if (nullValidator[2] == false) {
-            stringBuilder.append("Rules:\n");
+            stringBuilder.append("grammar.Rules:\n");
             for (int i = 0; i < rules.size(); i++) {
                 stringBuilder.append(rules.get(i).toString());
             }

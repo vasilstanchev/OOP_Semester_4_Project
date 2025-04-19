@@ -1,7 +1,23 @@
+package commands;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.function.Supplier;
+
+import grammar.ContextSensitiveGrammar;
 
 public class Command {
+    private static final Map<String, Supplier<? extends Command>> commands = new HashMap<>();
+    static {
+        commands.put("list", ListId::new);
+        commands.put("print", PrintGrammar::new);
+        commands.put("printAll", PrintGrammar::new);
+        commands.put("help", Help::new);
+    }
+    public void execute(){};
+    public void execute(List<ContextSensitiveGrammar> grammars){};
     public static void instructions(List<ContextSensitiveGrammar> grammars){
         Scanner scanner = new Scanner(System.in);
         String commandLine = "";
@@ -12,11 +28,11 @@ public class Command {
             commandLine = scanner.nextLine();
             String[] commandElements = commandLine.split(" ");
             commandName = commandElements[0];
-            if (commandName.contains("help")){
-                Command.help();
+            if ("help".equals(commandName) && commands.containsKey("help")){
+                commands.get(commandName).get().execute();
             }
-            else if (commandName.contains("list")){
-                ContextSensitiveGrammar.listIds(grammars);
+            else if ("list".equals(commandName) && commands.containsKey("list")){
+                commands.get(commandName).get().execute(grammars);
             }
             else if (commandName.contains("print")){
                 if (grammars.isEmpty()){
@@ -80,18 +96,5 @@ public class Command {
                 System.out.println("Enter a valid command. Type help to see the full list!");
             }
         }
-    }
-    public static void help(){
-        System.out.println("List of available commands:");
-        System.out.printf("\tlist - prints the ids for all the entered grammars\n");
-        System.out.printf("\tprint <id> - prints info about the given grammar matched to the id\n");
-        System.out.printf("\tprintAll - prints info about every entered grammar\n");
-        System.out.printf("\taddGrammar - adds a new grammar with unique id\n");
-        System.out.printf("\taddRule <id> <rule> - adds a new rule to the given grammar\n");
-        System.out.printf("\taddWord <id> - adds a new word to the given grammar\n");
-        //System.out.printf("\tremoveRule <id> <n> - removes a rule to the given grammar\n");
-        System.out.printf("\tempty <id> - check whether the language in a given grammar is empty\n");
-        System.out.printf("\thelp - lists all available commands\n");
-        System.out.printf("\texit - exits the program\n");
     }
 }

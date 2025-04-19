@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+package grammar;
+
 import java.util.List;
 
 public class Rules {

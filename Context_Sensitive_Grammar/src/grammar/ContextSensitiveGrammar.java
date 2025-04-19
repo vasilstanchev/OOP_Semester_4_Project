@@ -1,6 +1,8 @@
+package grammar;
+
 import java.util.*;
 
-public class ContextSensitiveGrammar extends Grammar{
+public class ContextSensitiveGrammar extends Grammar {
     ContextSensitiveGrammar(List<Character> terminals){
         super(terminals);
     }
@@ -69,12 +71,7 @@ public class ContextSensitiveGrammar extends Grammar{
         }
     }
     public void listId(){
-        System.out.printf("Grammar id: %d\n", this.id);
-    }
-    public static void listIds(List<ContextSensitiveGrammar> grammars){
-        for (int i = 0; i < grammars.size(); i++) {
-            grammars.get(i).listId();
-        }
+        System.out.printf("grammar.Grammar id: %d\n", this.id);
     }
     public static void isLanguageEmpty(List<ContextSensitiveGrammar> grammars, int id){
         for (int i = 0; i < grammars.size(); i++) {

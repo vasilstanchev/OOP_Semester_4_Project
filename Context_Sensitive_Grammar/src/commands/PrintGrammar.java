@@ -79,7 +79,19 @@ public class PrintGrammar extends Command{
         return stringBuilder.toString();
     }
 
-    public static void execute(ContextSensitiveGrammar grammar){
-        System.out.println(PrintGrammar.toString(grammar));
+    @Override
+    public void execute(CommandParameters parameters) {
+        List<String> args = parameters.getArgs();
+        List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
+        if (args.isEmpty()) {
+            System.out.println("No Id parameter was provided.");
+            return;
+        }
+        try {
+            int id = Integer.parseInt(args.get(0));
+            System.out.println("Grammar " + id + ": " + grammars.get(id).toString());
+        } catch (Exception e) {
+            System.out.println("You've entered a wrong Id.");
+        }
     }
 }

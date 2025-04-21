@@ -17,7 +17,8 @@ public class Help extends Command{
         stringBuilder.append("\texit - exits the program\n");
         return stringBuilder.toString();
     }
-    public void execute(){
+    @Override
+    public void execute(CommandParameters parameters) {
         System.out.printf(this.toString());
     }
 }

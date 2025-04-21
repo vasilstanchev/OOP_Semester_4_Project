@@ -5,7 +5,9 @@ import grammar.ContextSensitiveGrammar;
 import java.util.List;
 
 public class ListId extends Command{
-    public void execute(List<ContextSensitiveGrammar> grammars){
+    @Override
+    public void execute(CommandParameters parameters){
+        List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
         for (int i = 0; i < grammars.size(); i++) {
             grammars.get(i).listId();
         }

@@ -71,7 +71,7 @@ public class ContextSensitiveGrammar extends Grammar {
         }
     }
     public void listId(){
-        System.out.printf("grammar.Grammar id: %d\n", this.id);
+        System.out.printf("Grammar id: %d\n", this.id);
     }
     public static void isLanguageEmpty(List<ContextSensitiveGrammar> grammars, int id){
         for (int i = 0; i < grammars.size(); i++) {

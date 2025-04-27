@@ -10,15 +10,15 @@ public abstract class Command {
     static {
         commands.put("list", ListId::new);
         commands.put("print", PrintGrammar::new);
-        commands.put("printAll", PrintGrammar::new);
+        commands.put("printAll", PrintAllGrammars::new);
         commands.put("help", Help::new);
-        //commands.put("addGrammar", Help::new);
-        //commands.put("addRule", Help::new);
-        //commands.put("addWord", Help::new);
-        //commands.put("empty", Help::new);
+        commands.put("addGrammar", AddGrammar::new);
+        commands.put("addRule", AddRule::new);
+        commands.put("addWord", AddWord::new);
+        commands.put("empty", Empty::new);
     }
     public void execute() {
-        execute(new CommandParameters(null, new ArrayList<>()));
+        execute(new CommandParameters(null, null));
     }
     public abstract void execute(CommandParameters parameters);
     public static void instructions(List<ContextSensitiveGrammar> grammars){
@@ -26,20 +26,18 @@ public abstract class Command {
         String commandLine = "";
         String commandName = "";
         List<String> args = new ArrayList<>();
+        CommandParameters context=new CommandParameters();
         System.out.println("Type help to see the available commands:");
-        while(!commandName.contains("exit")){ // to be optimized neither switch or if-else
+        while(!context.getCommand().contains("exit")){
             System.out.println("Enter command:");
             commandLine = scanner.nextLine();
-            String[] commandElements = commandLine.split(" ");
-            commandName = commandElements[0];
-            for (int i = 1; i < commandElements.length; i++) {
-                args.add(commandElements[i]);
-            }
 
             Supplier<? extends Command> commandSupplier = commands.get(commandName);
+            context = new CommandParameters(grammars, commandLine);
+            commandName=context.getCommand();
             if (commandSupplier != null) {
                 Command command = commandSupplier.get();
-                CommandParameters context = new CommandParameters(grammars, args);
+
                 command.execute(context);
             }
             else{

@@ -17,11 +17,11 @@ public abstract class Command {
         commands.put("addWord", AddWord::new);
         commands.put("empty", Empty::new);
     }
-    public void execute() {
+    public void execute()throws CustomException {
         execute(new CommandParameters(null, null));
     }
-    public abstract void execute(CommandParameters parameters);
-    public static void instructions(List<ContextSensitiveGrammar> grammars){
+    public abstract void execute(CommandParameters parameters) throws CustomException;
+    public static void instructions(List<ContextSensitiveGrammar> grammars) throws CustomException{
         Scanner scanner = new Scanner(System.in);
         String commandLine = "";
         String commandName = "";
@@ -37,7 +37,6 @@ public abstract class Command {
             commandName=context.getCommand();
             if (commandSupplier != null) {
                 Command command = commandSupplier.get();
-
                 command.execute(context);
             }
             else{

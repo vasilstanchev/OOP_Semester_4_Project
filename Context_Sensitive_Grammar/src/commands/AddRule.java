@@ -4,11 +4,11 @@ import java.util.List;
 
 public class AddRule extends Command{
     @Override
-    public void execute(CommandParameters parameters) {
+    public void execute(CommandParameters parameters)throws CustomException {
         List<String> args = parameters.getArgs();
         List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
         if (args.size() != 2) {
-            throw new IllegalArgumentException("Not enough parameters were provided.");
+            throw new CustomException("Not enough parameters were provided.");
         }
         try {
             int id = Integer.parseInt(args.get(0));

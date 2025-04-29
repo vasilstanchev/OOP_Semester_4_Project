@@ -4,8 +4,12 @@ import java.util.List;
 
 public class AddGrammar extends Command{
     @Override
-    public void execute(CommandParameters parameters) {
+    public void execute(CommandParameters parameters)throws CustomException {
+        List<String> args = parameters.getArgs();
         List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
-        ContextSensitiveGrammar.addGrammar(grammars);
+        if (args.isEmpty()){
+            throw new CustomException("No terminals were provided");
+        }
+        ContextSensitiveGrammar.addGrammar(grammars,args);
     }
 }

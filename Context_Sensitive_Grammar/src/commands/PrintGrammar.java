@@ -80,12 +80,11 @@ public class PrintGrammar extends Command{
     }
 
     @Override
-    public void execute(CommandParameters parameters) {
+    public void execute(CommandParameters parameters) throws CustomException{
         List<String> args = parameters.getArgs();
         List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
         if (args.isEmpty()) {
-            System.out.println("No Id parameter was provided.");
-            return;
+            throw new CustomException("There's no id entered");
         }
         try {
             int id = Integer.parseInt(args.get(0));

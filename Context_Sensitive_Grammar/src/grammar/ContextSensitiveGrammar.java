@@ -1,5 +1,7 @@
 package grammar;
 
+import commands.CustomException;
+
 import java.util.*;
 
 public class ContextSensitiveGrammar extends Grammar {
@@ -7,16 +9,15 @@ public class ContextSensitiveGrammar extends Grammar {
         super(terminals);
     }
 
-    public static void addGrammar(List<ContextSensitiveGrammar> grammars){
-        Scanner scanner = new Scanner(System.in);
-        ArrayList<Character> terminals = new ArrayList<>();
-        System.out.println("Enter the number of terminals you want to add:");
-        int count = Integer.parseInt(scanner.nextLine());
-
+    public static void addGrammar(List<ContextSensitiveGrammar> grammars, List<String> args)throws CustomException {
+        if (args.isEmpty()) {
+            throw new CustomException("There's no id entered");
+        }
+        List<Character> terminals = new ArrayList<>();
+        int count = args.size();
         for (int i = 0; i < count; i++)
         {
-            System.out.println("Enter a terminal to add:");
-            char terminal = scanner.next().charAt(0);
+            char terminal = args.get(i).charAt(0);
             terminals.add(terminal);
         }
         ContextSensitiveGrammar grammar = new ContextSensitiveGrammar(terminals);

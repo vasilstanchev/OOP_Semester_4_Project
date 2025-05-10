@@ -25,22 +25,26 @@ public abstract class Command {
         Scanner scanner = new Scanner(System.in);
         String commandLine = "";
         String commandName = "";
-        List<String> args = new ArrayList<>();
-        CommandParameters context=new CommandParameters();
+        CommandParameters context = new CommandParameters();
         System.out.println("Type help to see the available commands:");
         while(!context.getCommand().contains("exit")){
-            System.out.println("Enter command:");
-            commandLine = scanner.nextLine();
+            try {
+                System.out.println("Enter command:");
+                commandLine = scanner.nextLine();
 
-            Supplier<? extends Command> commandSupplier = commands.get(commandName);
-            context = new CommandParameters(grammars, commandLine);
-            commandName=context.getCommand();
-            if (commandSupplier != null) {
-                Command command = commandSupplier.get();
-                command.execute(context);
-            }
-            else{
-                System.out.println("Enter a valid command. Type help to see the full list!");
+                context = new CommandParameters(grammars, commandLine);
+                commandName = context.getCommand();
+                Supplier<? extends Command> commandSupplier = commands.get(commandName);
+                if (commandSupplier != null) {
+                    Command command = commandSupplier.get();
+                    command.execute(context);
+                } else if (commandName.contains("exit")) {
+                    System.out.println("Exiting...");
+                } else {
+                    System.out.println("Enter a valid command. Type help to see the full list!");
+                }
+            } catch (Exception e){
+                System.out.println("An error occurred: " + e.getMessage());
             }
         }
     }

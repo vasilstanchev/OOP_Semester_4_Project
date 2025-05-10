@@ -1,5 +1,7 @@
 package commands;
 import grammar.ContextSensitiveGrammar;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class CommandParameters {
@@ -10,10 +12,11 @@ public class CommandParameters {
     public CommandParameters(){
         command="";
     }
-    public CommandParameters(List<ContextSensitiveGrammar> grammars, String commandLine) {
+    public CommandParameters(List<ContextSensitiveGrammar> grammars, String commandLine)throws CustomException {
         this.grammars = grammars;
+        this.args=new ArrayList<>();
         if (commandLine == null || commandLine.isEmpty()){
-            throw new IllegalArgumentException("Command line is missing");
+            throw new CustomException("Command line is missing");
         }
         String[] commandElements = commandLine.split(" ");
         command = commandElements[0];

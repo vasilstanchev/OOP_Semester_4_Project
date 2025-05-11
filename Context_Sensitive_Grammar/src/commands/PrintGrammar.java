@@ -62,7 +62,7 @@ public class PrintGrammar extends Command{
             stringBuilder.append("\n");
         }
         if (nullValidator[2] == false) {
-            stringBuilder.append("grammar.Rules:\n");
+            stringBuilder.append("Rules:\n");
             for (int i = 0; i < rules.size(); i++) {
                 stringBuilder.append(rules.get(i).toString());
             }
@@ -89,7 +89,7 @@ public class PrintGrammar extends Command{
         try {
             int id = Integer.parseInt(args.get(0));
             ContextSensitiveGrammar grammar = ContextSensitiveGrammar.returnGrammarById(id, grammars);
-            System.out.println("Grammar " + id + ": " + PrintGrammar.toString(grammar));
+            System.out.println(PrintGrammar.toString(grammar));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

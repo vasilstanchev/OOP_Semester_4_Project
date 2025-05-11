@@ -46,7 +46,7 @@ public class ContextSensitiveGrammar extends Grammar {
             }
         }
     }
-    public void addRule(String describingPart){
+    public void addRule(String describingPart) throws CustomException{
         Scanner scanner = new Scanner(System.in);
         if (rules.isEmpty()){
             Rules rule = new Rules(1,'S', describingPart);
@@ -75,10 +75,21 @@ public class ContextSensitiveGrammar extends Grammar {
                 }
             }
             if (!isTrue) {
-                System.out.println("The non-terminal is not inside the list of non-terminals, the rule was not added");
+                throw new CustomException("The non-terminal is not inside the list of non-terminals, the rule was not added");
             }
         }
     }
+
+    public void removeRule(int ruleNumber) throws CustomException {
+        Rules ruleToRemove = Rules.getRuleByNumber(this.rules, ruleNumber);
+        if (ruleToRemove == null) {
+            throw new CustomException("No rule found with number: " + ruleNumber);
+        }
+
+        this.rules.remove(ruleToRemove);
+        System.out.println("Rule №" + ruleNumber + " was removed");
+    }
+
     public void listId(){
         System.out.printf("Grammar id: %d\n", this.id);
     }
@@ -110,7 +121,8 @@ public class ContextSensitiveGrammar extends Grammar {
         }
         return 0;
     }
-    public void addWord(){
+
+    public void addWord() throws CustomException{
         Scanner scanner = new Scanner(System.in);
         boolean isPossible = Rules.checkForFinal(rules);
         if (isPossible) {
@@ -124,18 +136,19 @@ public class ContextSensitiveGrammar extends Grammar {
                 number = Integer.parseInt(scanner.nextLine());
                 rule = Rules.getRuleByNumber(rules, number);
                 if (rule == null){
-                    System.out.println("Rule doesn't exist");
+                    throw new CustomException("Rule doesn't exist");
                 }
                 else{
                     word = Rules.connectTerminals(rule,word);
+                }
+                if (rule.getDescribingPart().equals("final")){
+                    word=word.replace("final","");
                 }
             } while (!rule.getDescribingPart().equals("final"));
             language.add(word);
         }
         else{
-            System.out.println("There isn't any end rule");
+            throw new CustomException("There isn't any end rule");
         }
     }
-    //removeGrammar()
-
 }

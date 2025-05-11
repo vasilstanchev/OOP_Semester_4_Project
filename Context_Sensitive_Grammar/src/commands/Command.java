@@ -14,6 +14,7 @@ public abstract class Command {
         commands.put("help", Help::new);
         commands.put("addGrammar", AddGrammar::new);
         commands.put("addRule", AddRule::new);
+        commands.put("removeRule", RemoveRule::new);
         commands.put("addWord", AddWord::new);
         commands.put("empty", Empty::new);
     }

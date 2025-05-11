@@ -34,7 +34,7 @@ public class PrintGrammar extends Command{
         return nullValidator;
     }
 
-    private static String toString(ContextSensitiveGrammar grammar) {
+    protected static String toString(ContextSensitiveGrammar grammar) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("Id: %d\n", grammar.getId()));
         Boolean[] nullValidator = validateGrammar(grammar.getTerminals(), grammar.getNonTerminals(), grammar.getRules(), grammar.getLanguage());
@@ -88,9 +88,10 @@ public class PrintGrammar extends Command{
         }
         try {
             int id = Integer.parseInt(args.get(0));
-            System.out.println("Grammar " + id + ": " + grammars.get(id).toString());
+            ContextSensitiveGrammar grammar = ContextSensitiveGrammar.returnGrammarById(id, grammars);
+            System.out.println("Grammar " + id + ": " + PrintGrammar.toString(grammar));
         } catch (Exception e) {
-            System.out.println("You've entered a wrong Id.");
+            System.out.println(e.getMessage());
         }
     }
 }

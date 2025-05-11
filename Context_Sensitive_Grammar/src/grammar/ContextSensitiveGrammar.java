@@ -9,6 +9,14 @@ public class ContextSensitiveGrammar extends Grammar {
         super(terminals);
     }
 
+    public static ContextSensitiveGrammar returnGrammarById(int id, List<ContextSensitiveGrammar> grammars) throws CustomException{
+        for (int i = 0; i < grammars.size(); i++) {
+            if (grammars.get(i).getId()==id){
+                return grammars.get(i);
+            }
+        }
+        throw new CustomException("The id doesn't exist");
+    }
     public static void addGrammar(List<ContextSensitiveGrammar> grammars, List<String> args)throws CustomException {
         if (args.isEmpty()) {
             throw new CustomException("There's no id entered");

@@ -14,7 +14,7 @@ public class PrintAllGrammars extends Command {
         }
 
         for (int i = 0; i < grammars.size(); i++) {
-            System.out.println("Grammar " + grammars.get(i).getId() + ": " + grammars.get(i).toString());
+            System.out.println(PrintGrammar.toString(grammars.get(i)));
         }
 
     }

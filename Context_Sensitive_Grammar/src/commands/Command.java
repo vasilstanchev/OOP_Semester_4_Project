@@ -16,6 +16,12 @@ public abstract class Command {
         commands.put("addRule", AddRule::new);
         commands.put("removeRule", RemoveRule::new);
         commands.put("addWord", AddWord::new);
+        commands.put("union", Union::new);
+        commands.put("concat", Concat::new);
+        commands.put("chomsky", Chomsky::new);
+        commands.put("cyk", Cyk::new);
+        commands.put("iter", Iter::new);
+        commands.put("chomskify", Chomskify::new);
         commands.put("empty", Empty::new);
     }
     public void execute()throws CustomException {

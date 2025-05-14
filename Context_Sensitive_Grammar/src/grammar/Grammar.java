@@ -18,6 +18,13 @@ public abstract class Grammar {
         rules = new ArrayList<>();
         language = new ArrayList<>();
     }
+   Grammar(List<Character> terminals, List<Character> nonTerminals, List<Rules> rules, List<String> language){
+        id = generateId();
+        setTerminals(terminals);
+        setNonTerminals(nonTerminals);
+        setRules(rules);
+        setLanguage(language);
+   }
     public int generateId(){
         Random random = new Random();
         int minNum = 1;
@@ -48,7 +55,7 @@ public abstract class Grammar {
     public void setRules(List<Rules> rules) {
         this.rules = rules;
     }
-    public void setLanguage(ArrayList<String> language) {
+    public void setLanguage(List<String> language) {
         this.language = language;
     }
 }

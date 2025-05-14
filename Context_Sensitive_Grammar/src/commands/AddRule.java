@@ -15,7 +15,7 @@ public class AddRule extends Command{
             ContextSensitiveGrammar grammar = ContextSensitiveGrammar.returnGrammarById(id, grammars);
             grammar.addRule(args.get(1));
         } catch (Exception e) {
-            System.out.println("You've entered a wrong Id.");
+            System.out.println(e.getMessage());
         }
     }
 }

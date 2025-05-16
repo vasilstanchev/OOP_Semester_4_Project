@@ -2,10 +2,41 @@ package commands;
 
 import grammar.ContextSensitiveGrammar;
 import grammar.Grammar;
+import grammar.Rules;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Union extends Command{
+    private ContextSensitiveGrammar unionOfTwoGrammars(ContextSensitiveGrammar g1, ContextSensitiveGrammar g2){
+        List<Character> terminals;
+        List<Character> nonTerminals;
+        List<Rules> rules = new ArrayList<>(g1.getRules());
+        List<String> language;
+
+        Set<Character> setTerminals = new HashSet<>(g1.getTerminals());
+        setTerminals.addAll(g2.getTerminals());
+        terminals = new ArrayList<>(setTerminals);
+
+        Set<Character> setNonTerminals = new HashSet<>(g1.getNonTerminals());
+        setNonTerminals.addAll(g2.getNonTerminals());
+        nonTerminals = new ArrayList<>(setNonTerminals);
+
+        Set<String> setLanguage = new HashSet<>(g1.getLanguage());
+        setLanguage.addAll(g2.getLanguage());
+        language = new ArrayList<>(setLanguage);
+
+        for (Rules g2Rule : g2.getRules()) {
+            if (!rules.contains(g2Rule)) {
+                rules.add(g2Rule);
+            }
+        }
+
+        ContextSensitiveGrammar newGrammar = new ContextSensitiveGrammar(terminals, nonTerminals, rules, language);
+        return newGrammar;
+    }
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();
@@ -18,7 +49,7 @@ public class Union extends Command{
             int id2 = Integer.parseInt(args.get(1));
             ContextSensitiveGrammar g1 = ContextSensitiveGrammar.returnGrammarById(id1, grammars);
             ContextSensitiveGrammar g2 = ContextSensitiveGrammar.returnGrammarById(id2, grammars);
-            ContextSensitiveGrammar newGrammar = ContextSensitiveGrammar.unionOfTwoGrammars(g1,g2);
+            ContextSensitiveGrammar newGrammar = this.unionOfTwoGrammars(g1,g2);
             grammars.add(newGrammar);
             newGrammar.listId();
         } catch (Exception e) {

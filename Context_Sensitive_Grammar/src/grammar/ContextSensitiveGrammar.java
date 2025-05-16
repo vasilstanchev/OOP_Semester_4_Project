@@ -5,10 +5,10 @@ import commands.CustomException;
 import java.util.*;
 
 public class ContextSensitiveGrammar extends Grammar {
-    ContextSensitiveGrammar(List<Character> terminals){
+    public ContextSensitiveGrammar(List<Character> terminals){
         super(terminals);
     }
-    ContextSensitiveGrammar(List<Character> terminals, List<Character> nonTerminals, List<Rules> rules, List<String> language){
+    public ContextSensitiveGrammar(List<Character> terminals, List<Character> nonTerminals, List<Rules> rules, List<String> language){
         super(terminals,nonTerminals,rules,language);
     }
 
@@ -153,32 +153,5 @@ public class ContextSensitiveGrammar extends Grammar {
         else{
             throw new CustomException("There isn't any end rule");
         }
-    }
-    public static ContextSensitiveGrammar unionOfTwoGrammars(ContextSensitiveGrammar g1, ContextSensitiveGrammar g2){
-        List<Character> terminals;
-        List<Character> nonTerminals;
-        List<Rules> rules = g1.getRules();
-        List<String> language;
-
-        Set<Character> setTerminals = new HashSet<>(g1.getTerminals());
-        setTerminals.addAll(g2.getTerminals());
-        terminals = new ArrayList<>(setTerminals);
-
-        Set<Character> setNonTerminals = new HashSet<>(g1.getNonTerminals());
-        setNonTerminals.addAll(g2.getNonTerminals());
-        nonTerminals = new ArrayList<>(setNonTerminals);
-
-        Set<String> setLanguage = new HashSet<>(g1.getLanguage());
-        setLanguage.addAll(g2.getLanguage());
-        language = new ArrayList<>(setLanguage);
-
-        for (Rules g2Rule : g2.getRules()) {
-            if (!rules.contains(g2Rule)) {
-                rules.add(g2Rule);
-            }
-        }
-
-        ContextSensitiveGrammar newGrammar = new ContextSensitiveGrammar(terminals, nonTerminals, rules, language);
-        return newGrammar;
     }
 }

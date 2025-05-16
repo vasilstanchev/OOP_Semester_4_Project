@@ -47,15 +47,15 @@ public abstract class Grammar {
         return Collections.unmodifiableList(language);
     }
     public void setTerminals(List<Character> terminals) {
-        this.terminals = terminals;
+        this.terminals = terminals != null ? new ArrayList<>(terminals) : new ArrayList<>();
     }
     public void setNonTerminals(List<Character> nonTerminals) {
-        this.nonTerminals = nonTerminals;
+        this.nonTerminals = nonTerminals != null ? new ArrayList<>(nonTerminals) : new ArrayList<>();
     }
     public void setRules(List<Rules> rules) {
-        this.rules = rules;
+        this.rules = rules != null ? new ArrayList<>(rules) : new ArrayList<>();
     }
     public void setLanguage(List<String> language) {
-        this.language = language;
+        this.language = language != null ? new ArrayList<>(language) : new ArrayList<>();
     }
 }

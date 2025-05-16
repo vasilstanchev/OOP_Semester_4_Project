@@ -74,4 +74,22 @@ public class Rules {
             return word;
         }
     }
+    public static boolean isInChomskyNormalForm(List<Rules> rules) {
+        for (Rules rule : rules) {
+            String describingPart = rule.getDescribingPart();
+            if (describingPart.length() == 1 && Character.isLowerCase(describingPart.charAt(0))) {
+                continue;
+            }
+            if (describingPart.length() == 2 && Character.isUpperCase(describingPart.charAt(0)) && Character.isUpperCase(describingPart.charAt(1))) {
+                continue;
+            }
+            if (describingPart.equals("final")) {
+                continue;
+            }
+            return false;
+        }
+
+        return true;
+    }
+
 }

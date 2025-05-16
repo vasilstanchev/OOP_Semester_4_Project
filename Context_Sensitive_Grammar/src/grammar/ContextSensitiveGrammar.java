@@ -154,4 +154,96 @@ public class ContextSensitiveGrammar extends Grammar {
             throw new CustomException("There isn't any end rule");
         }
     }
+
+    private static char findNextAvailableNonTerminal(List<Character> nonTerminals)throws CustomException {
+        char nextNonTerminal = 'A';
+        while (nonTerminals.contains(nextNonTerminal)) {
+            nextNonTerminal++;
+            if (nextNonTerminal > 'Z') {
+                throw new CustomException("All non-terminals are already used");
+            }
+        }
+        return nextNonTerminal;
+    }
+
+    public static ContextSensitiveGrammar convertToChomskyNormalForm(ContextSensitiveGrammar grammar)throws CustomException {
+        if (Rules.isInChomskyNormalForm(grammar.getRules())) {
+            throw new CustomException("Grammar is already in chomsky normal form.");
+        }
+
+        List<Rules> newRules = new ArrayList<>(grammar.getRules());
+        List<Character> newNonTerminals = new ArrayList<>(grammar.getNonTerminals());
+        char nextNonTerminal = findNextAvailableNonTerminal(newNonTerminals);
+        Map<Character, Character> terminalToNonTerminal = new HashMap<>();
+
+        boolean changed = true;
+        while (changed) {
+            changed = false;
+            List<Rules> toAdd = new ArrayList<>();
+            List<Rules> toRemove = new ArrayList<>();
+            for (Rules rule : newRules) {
+                if (rule.getDescribingPart().length() == 1 && Character.isUpperCase(rule.getDescribingPart().charAt(0))) {
+                    char nonTerminalToReplace = rule.getDescribingPart().charAt(0);
+                    char currentNonTerminal = rule.getNonTerminal();
+                    toRemove.add(rule);
+                    changed = true;
+                    for (Rules r : newRules) {
+                        if (r.getNonTerminal() == nonTerminalToReplace) {
+                            Rules newRule = new Rules(newRules.size() + toAdd.size() + 1, currentNonTerminal, r.getDescribingPart());
+                            toAdd.add(newRule);
+                        }
+                    }
+                }
+            }
+            newRules.removeAll(toRemove);
+            newRules.addAll(toAdd);
+        }
+
+        List<Rules> finalRules = new ArrayList<>();
+        for (Rules rule : newRules) {
+            String describingPart = rule.getDescribingPart();
+            char nonTerminal = rule.getNonTerminal();
+
+            if (describingPart.length() == 1 && Character.isLowerCase(describingPart.charAt(0))) {
+                finalRules.add(rule);
+            } else if (describingPart.length() >= 2) {
+                StringBuilder newDescribingPart = new StringBuilder();
+                for (char symbol : describingPart.toCharArray()) {
+                    if (Character.isLowerCase(symbol)) {
+                        if (!terminalToNonTerminal.containsKey(symbol)) {
+                            terminalToNonTerminal.put(symbol, nextNonTerminal++);
+                            newNonTerminals.add(terminalToNonTerminal.get(symbol));
+                            Rules newRule = new Rules(finalRules.size() + 1, terminalToNonTerminal.get(symbol), String.valueOf(symbol));
+                            finalRules.add(newRule);
+                        }
+                        newDescribingPart.append(terminalToNonTerminal.get(symbol));
+                    } else {
+                        newDescribingPart.append(symbol);
+                    }
+                }
+
+                String finalDescribingPart = newDescribingPart.toString();
+                if (finalDescribingPart.length() <= 2) {
+                    Rules newRule = new Rules(finalRules.size() + 1, nonTerminal, finalDescribingPart);
+                    finalRules.add(newRule);
+                } else {
+                    char lastNonTerminal = nonTerminal;
+                    for (int i = 0; i < finalDescribingPart.length() - 2; i++) {
+                        char newNt = nextNonTerminal++;
+                        newNonTerminals.add(newNt);
+                        Rules newRule = new Rules(finalRules.size() + 1, lastNonTerminal, String.valueOf(finalDescribingPart.charAt(i)) + newNt);
+                        finalRules.add(newRule);
+                        lastNonTerminal = newNt;
+                    }
+                    Rules newRule = new Rules(finalRules.size() + 1, lastNonTerminal, finalDescribingPart.substring(finalDescribingPart.length() - 2));
+                    finalRules.add(newRule);
+                }
+            } else if (describingPart.equals("final")) {
+                finalRules.add(rule);
+            }
+        }
+
+        ContextSensitiveGrammar newGrammar = new ContextSensitiveGrammar(grammar.getTerminals(), newNonTerminals, finalRules, grammar.getLanguage());
+        return newGrammar;
+    }
 }

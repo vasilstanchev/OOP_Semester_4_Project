@@ -16,12 +16,9 @@ public class Chomskify extends Command{
         try {
             int id = Integer.parseInt(args.get(0));
             ContextSensitiveGrammar grammar = ContextSensitiveGrammar.returnGrammarById(id, grammars);
-            if (Rules.isInChomskyNormalForm(grammar.getRules())){
-                System.out.println("The given grammar is in Chomsky normal form.");
-            }
-            else{
-                System.out.println("The given grammar isn't in Chomsky normal form.");
-            }
+            ContextSensitiveGrammar newGrammar = ContextSensitiveGrammar.convertToChomskyNormalForm(grammar);
+            grammars.add(newGrammar);
+            newGrammar.listId();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

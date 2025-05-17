@@ -10,7 +10,7 @@ public class Chomsky extends Command{
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();
         List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
-        if (args.isEmpty()) {
+        if (args.size() != 1) {
             throw new CustomException("There's no id entered");
         }
         try {

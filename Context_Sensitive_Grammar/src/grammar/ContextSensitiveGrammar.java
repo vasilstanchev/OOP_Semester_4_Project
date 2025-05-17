@@ -243,7 +243,53 @@ public class ContextSensitiveGrammar extends Grammar {
             }
         }
 
-        ContextSensitiveGrammar newGrammar = new ContextSensitiveGrammar(grammar.getTerminals(), newNonTerminals, finalRules, grammar.getLanguage());
-        return newGrammar;
+        return new ContextSensitiveGrammar(grammar.getTerminals(), newNonTerminals, finalRules, grammar.getLanguage());
+    }
+
+    public static boolean isWordInLanguage(ContextSensitiveGrammar grammar, String word) throws CustomException{
+        if (!Rules.isInChomskyNormalForm(grammar.getRules())) {
+            throw new CustomException("Grammar is already in chomsky normal form.");
+        }
+
+        int n = word.length();
+        List<Rules> rules = grammar.getRules();
+        Set<Character> nonTerminals = new HashSet<>(grammar.getNonTerminals());
+        char startSymbol = 'S';
+
+        Set<Character>[][] P = new HashSet[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                P[i][j] = new HashSet<>();
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            char terminal = word.charAt(i);
+            for (Rules rule : rules) {
+                if (rule.getDescribingPart().length() == 1 && rule.getDescribingPart().charAt(0) == terminal) {
+                    P[i][i].add(rule.getNonTerminal());
+                }
+            }
+        }
+
+        for (int l = 2; l <= n; l++) {
+            for (int i = 0; i <= n - l; i++) {
+                int j = i + l - 1;
+                for (int k = i; k < j; k++) {
+                    for (Rules rule : rules) {
+                        String describingPart = rule.getDescribingPart();
+                        if (describingPart.length() == 2) {
+                            char A = describingPart.charAt(0);
+                            char B = describingPart.charAt(1);
+                            if (P[i][k].contains(A) && P[k + 1][j].contains(B)) {
+                                P[i][j].add(rule.getNonTerminal());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return P[0][n - 1].contains(startSymbol);
     }
 }

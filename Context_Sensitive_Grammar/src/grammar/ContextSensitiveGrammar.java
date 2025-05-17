@@ -49,7 +49,20 @@ public class ContextSensitiveGrammar extends Grammar {
             }
         }
     }
+    private boolean checkDescribingPart(String describingPart)throws CustomException{
+        for (char character: describingPart.toCharArray()) {
+            if (Character.isLowerCase(character)) {
+                if (!this.terminals.contains(character)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public void addRule(String describingPart) throws CustomException{
+        if (!this.checkDescribingPart(describingPart)){
+            throw new CustomException("The terminals inside the describing part of the rule don't match with the entered alphabet!");
+        }
         Scanner scanner = new Scanner(System.in);
         if (rules.isEmpty()){
             Rules rule = new Rules(1,'S', describingPart);

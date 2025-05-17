@@ -16,7 +16,6 @@ public class Cyk extends Command{
             int id = Integer.parseInt(args.get(0));
             String word = args.get(1);
             ContextSensitiveGrammar grammar = ContextSensitiveGrammar.returnGrammarById(id, grammars);
-
             if (ContextSensitiveGrammar.isWordInLanguage(grammar, word)){
                 System.out.println("The word is inside of the language");
             }

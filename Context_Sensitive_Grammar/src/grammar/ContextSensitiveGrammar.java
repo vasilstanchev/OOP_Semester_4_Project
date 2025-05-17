@@ -166,84 +166,82 @@ public class ContextSensitiveGrammar extends Grammar {
         return nextNonTerminal;
     }
 
-    public static ContextSensitiveGrammar convertToChomskyNormalForm(ContextSensitiveGrammar grammar)throws CustomException {
+    public static ContextSensitiveGrammar convertToChomskyNormalForm(ContextSensitiveGrammar grammar) throws CustomException {
         if (Rules.isInChomskyNormalForm(grammar.getRules())) {
-            throw new CustomException("Grammar is already in chomsky normal form.");
+            throw new CustomException("Grammar is already in Chomsky normal form.");
         }
 
-        List<Rules> newRules = new ArrayList<>(grammar.getRules());
+        List<Rules> newRules = new ArrayList<>();
         List<Character> newNonTerminals = new ArrayList<>(grammar.getNonTerminals());
-        char nextNonTerminal = findNextAvailableNonTerminal(newNonTerminals);
-        Map<Character, Character> terminalToNonTerminal = new HashMap<>();
+        List<Character> terminals = grammar.getTerminals();
+        Map<Character, Character> terminalMap = new HashMap<>();
+        int ruleCounter = 1;
+        char newNonTerminalChar = grammar.getNonTerminals().get(grammar.getNonTerminals().size() - 1);
 
-        boolean changed = true;
-        while (changed) {
-            changed = false;
-            List<Rules> toAdd = new ArrayList<>();
-            List<Rules> toRemove = new ArrayList<>();
-            for (Rules rule : newRules) {
-                if (rule.getDescribingPart().length() == 1 && Character.isUpperCase(rule.getDescribingPart().charAt(0))) {
-                    char nonTerminalToReplace = rule.getDescribingPart().charAt(0);
-                    char currentNonTerminal = rule.getNonTerminal();
-                    toRemove.add(rule);
-                    changed = true;
-                    for (Rules r : newRules) {
-                        if (r.getNonTerminal() == nonTerminalToReplace) {
-                            Rules newRule = new Rules(newRules.size() + toAdd.size() + 1, currentNonTerminal, r.getDescribingPart());
-                            toAdd.add(newRule);
+        for (Rules rule : grammar.getRules()) {
+            String rhs = rule.getDescribingPart();
+
+            if (rhs.equals("final")) {
+                newRules.add(new Rules(ruleCounter++, rule.getNonTerminal(), rhs));
+                continue;
+            }
+
+            if (rhs.length() > 1) {
+                StringBuilder newRhs = new StringBuilder();
+                for (char symbol : rhs.toCharArray()) {
+                    if (terminals.contains(symbol)) {
+                        if (!terminalMap.containsKey(symbol)) {
+                            while (newNonTerminals.contains(newNonTerminalChar)) {
+                                newNonTerminalChar++;
+                            }
+                            terminalMap.put(symbol, newNonTerminalChar);
+                            newNonTerminals.add(newNonTerminalChar);
+                            newRules.add(new Rules(ruleCounter++, newNonTerminalChar, String.valueOf(symbol)));
+                            newNonTerminalChar++;
                         }
+                        newRhs.append(terminalMap.get(symbol));
+                    } else {
+                        newRhs.append(symbol);
                     }
                 }
+                newRules.add(new Rules(ruleCounter++, rule.getNonTerminal(), newRhs.toString()));
+            } else {
+                newRules.add(new Rules(ruleCounter++, rule.getNonTerminal(), rhs));
             }
-            newRules.removeAll(toRemove);
-            newRules.addAll(toAdd);
         }
 
         List<Rules> finalRules = new ArrayList<>();
         for (Rules rule : newRules) {
-            String describingPart = rule.getDescribingPart();
-            char nonTerminal = rule.getNonTerminal();
+            String rhs = rule.getDescribingPart();
 
-            if (describingPart.length() == 1 && Character.isLowerCase(describingPart.charAt(0))) {
+            if (rhs.equals("final")) {
                 finalRules.add(rule);
-            } else if (describingPart.length() >= 2) {
-                StringBuilder newDescribingPart = new StringBuilder();
-                for (char symbol : describingPart.toCharArray()) {
-                    if (Character.isLowerCase(symbol)) {
-                        if (!terminalToNonTerminal.containsKey(symbol)) {
-                            terminalToNonTerminal.put(symbol, nextNonTerminal++);
-                            newNonTerminals.add(terminalToNonTerminal.get(symbol));
-                            Rules newRule = new Rules(finalRules.size() + 1, terminalToNonTerminal.get(symbol), String.valueOf(symbol));
-                            finalRules.add(newRule);
-                        }
-                        newDescribingPart.append(terminalToNonTerminal.get(symbol));
-                    } else {
-                        newDescribingPart.append(symbol);
-                    }
-                }
+                continue;
+            }
 
-                String finalDescribingPart = newDescribingPart.toString();
-                if (finalDescribingPart.length() <= 2) {
-                    Rules newRule = new Rules(finalRules.size() + 1, nonTerminal, finalDescribingPart);
-                    finalRules.add(newRule);
-                } else {
-                    char lastNonTerminal = nonTerminal;
-                    for (int i = 0; i < finalDescribingPart.length() - 2; i++) {
-                        char newNt = nextNonTerminal++;
-                        newNonTerminals.add(newNt);
-                        Rules newRule = new Rules(finalRules.size() + 1, lastNonTerminal, String.valueOf(finalDescribingPart.charAt(i)) + newNt);
-                        finalRules.add(newRule);
-                        lastNonTerminal = newNt;
-                    }
-                    Rules newRule = new Rules(finalRules.size() + 1, lastNonTerminal, finalDescribingPart.substring(finalDescribingPart.length() - 2));
-                    finalRules.add(newRule);
-                }
-            } else if (describingPart.equals("final")) {
+            if (rhs.length() <= 2) {
                 finalRules.add(rule);
+            } else {
+                char currentLhs = rule.getNonTerminal();
+                String remainingRhs = rhs;
+                while (remainingRhs.length() > 2) {
+                    char first = remainingRhs.charAt(0);
+
+                    while (newNonTerminals.contains(newNonTerminalChar)) {
+                        newNonTerminalChar++;
+                    }
+                    char newNonTerminal = newNonTerminalChar;
+                    newNonTerminals.add(newNonTerminal);
+                    finalRules.add(new Rules(ruleCounter++, currentLhs, "" + first + newNonTerminal));
+                    currentLhs = newNonTerminal;
+                    remainingRhs = remainingRhs.substring(1);
+                    newNonTerminalChar++;
+                }
+                finalRules.add(new Rules(ruleCounter++, currentLhs, remainingRhs));
             }
         }
 
-        return new ContextSensitiveGrammar(grammar.getTerminals(), newNonTerminals, finalRules, grammar.getLanguage());
+        return new ContextSensitiveGrammar(terminals, newNonTerminals, finalRules, grammar.getLanguage());
     }
 
     public static boolean isWordInLanguage(ContextSensitiveGrammar grammar, String word) throws CustomException{
@@ -291,5 +289,29 @@ public class ContextSensitiveGrammar extends Grammar {
         }
 
         return P[0][n - 1].contains(startSymbol);
+    }
+    public static ContextSensitiveGrammar kleeneStar(ContextSensitiveGrammar grammar) {
+        int maxLength = 3;
+        Set<String> result = new HashSet<>();
+        result.add("");
+
+        Set<String> current = new HashSet<>();
+        current.add("");
+
+        for (int i = 1; i <= maxLength; i++) {
+            Set<String> next = new HashSet<>();
+            for (String prefix : current) {
+                for (char ch : grammar.getTerminals()) {
+                    next.add(prefix + ch);
+                }
+            }
+            result.addAll(next);
+            current = next;
+        }
+        List<String> resultList = new ArrayList<>(result);
+        List<String> language = new ArrayList<>(grammar.getLanguage());
+        language.addAll(resultList);
+
+        return new ContextSensitiveGrammar(grammar.getTerminals(), grammar.getNonTerminals(), grammar.getRules(),language);
     }
 }

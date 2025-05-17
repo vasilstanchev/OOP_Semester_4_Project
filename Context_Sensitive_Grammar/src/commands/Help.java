@@ -15,7 +15,7 @@ public class Help extends Command{
         stringBuilder.append("\tunion <id1> <id2> - finds the union of two grammars and creates a new one from it. then it displays the new id\n");
         stringBuilder.append("\tconcat <id1> <id2> - finds the concat of two grammars and creates a new one from it. then it displays the new id\n");
         stringBuilder.append("\tchomsky <id> - checks if a given grammar is in Chomsky normal form\n");
-        stringBuilder.append("\tcyk <id> - checks if a given word is in the language of a given grammar using the CYK algorithm\n");
+        stringBuilder.append("\tcyk <id> <word> - checks if a given word is in the language of a given grammar using the CYK algorithm\n");
         stringBuilder.append("\titer <id> - Finds the result of the \"iteration\" (Kleene star) operation over a grammar and creates a new grammar. then it displays the new id\n");
         stringBuilder.append("\tchomskify <id> - converts a grammar to Chomsky normal form. then it displays the new id\n");
         stringBuilder.append("\tempty <id> - check whether the language in a given grammar is empty\n");

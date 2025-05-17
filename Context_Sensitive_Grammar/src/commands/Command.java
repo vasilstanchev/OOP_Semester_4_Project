@@ -1,5 +1,6 @@
 package commands;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.Supplier;
 
@@ -37,6 +38,7 @@ public abstract class Command {
         String commandLine = "";
         String commandName = "";
         CommandParameters context = new CommandParameters();
+        File currentFile = null;
         System.out.println("Type help to see the available commands:");
         while(!context.getCommand().contains("exit")){
             try {
@@ -45,11 +47,13 @@ public abstract class Command {
                 commandLine = scanner.nextLine();
 
                 context = new CommandParameters(grammars, commandLine);
+                context.setFile(currentFile);
                 commandName = context.getCommand();
                 Supplier<? extends Command> commandSupplier = commands.get(commandName);
                 if (commandSupplier != null) {
                     Command command = commandSupplier.get();
                     command.execute(context);
+                    currentFile = context.getFile();
                 } else if (commandName.contains("exit")) {
                     System.out.println("Exiting...");
                 } else {

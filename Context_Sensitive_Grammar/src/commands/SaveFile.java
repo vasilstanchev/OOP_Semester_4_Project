@@ -6,7 +6,7 @@ import java.io.*;
 import java.util.List;
 
 public class SaveFile extends Command{
-    private void saveList(List<ContextSensitiveGrammar> grammars, File file) {
+    public static void saveList(List<ContextSensitiveGrammar> grammars, File file) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(grammars);
             System.out.println("The grammars were save successfully");
@@ -14,7 +14,7 @@ public class SaveFile extends Command{
             System.out.println("Error while saving: " + e.getMessage());
         }
     }
-    private void saveGrammar(ContextSensitiveGrammar grammar, File file) {
+    public void saveGrammar(ContextSensitiveGrammar grammar, File file) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(grammar);
             System.out.println("The grammar was save successfully");
@@ -27,7 +27,7 @@ public class SaveFile extends Command{
         List<String> args = parameters.getArgs();
         List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
         if (args.isEmpty()){
-            this.saveList(grammars, parameters.getFile());
+            SaveFile.saveList(grammars, parameters.getFile());
         }
         else if (args.size() != 2){
             throw new CustomException("Not enough parameters were provided.");

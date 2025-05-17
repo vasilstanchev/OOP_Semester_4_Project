@@ -1,6 +1,7 @@
 package commands;
 import grammar.ContextSensitiveGrammar;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ public class CommandParameters {
     private List<ContextSensitiveGrammar> grammars;
     private List<String> args;
     private String command;
+    private File file;
 
     public CommandParameters(){
         command="";
@@ -35,5 +37,13 @@ public class CommandParameters {
 
     public String getCommand() {
         return command;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File fileName) {
+        this.file = file;
     }
 }

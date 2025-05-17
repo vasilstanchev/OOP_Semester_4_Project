@@ -23,6 +23,10 @@ public abstract class Command {
         commands.put("iter", Iter::new);
         commands.put("chomskify", Chomskify::new);
         commands.put("empty", Empty::new);
+        commands.put("closeFile", CloseFile::new);
+        commands.put("openFile", OpenFile::new);
+        commands.put("saveAsFile", SaveAsFile::new);
+        commands.put("save", SaveFile::new);
     }
     public void execute()throws CustomException {
         execute(new CommandParameters(null, null));
@@ -37,6 +41,7 @@ public abstract class Command {
         while(!context.getCommand().contains("exit")){
             try {
                 System.out.println("Enter command:");
+                System.out.printf("> ");
                 commandLine = scanner.nextLine();
 
                 context = new CommandParameters(grammars, commandLine);

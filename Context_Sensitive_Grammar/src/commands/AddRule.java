@@ -3,6 +3,11 @@ import grammar.ContextSensitiveGrammar;
 import java.util.List;
 
 public class AddRule extends Command{
+    /**
+     * Пренаписан метод, който извиква метода за създаване на ново правило към дадена граматика, като предава параметрите въведени от потребителя(правилото и уникалния идентификатор на граматика)
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters)throws CustomException {
         List<String> args = parameters.getArgs();

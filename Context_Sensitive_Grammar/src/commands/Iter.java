@@ -5,6 +5,11 @@ import grammar.ContextSensitiveGrammar;
 import java.util.List;
 
 public class Iter extends Command{
+    /**
+     * Пренаписан метод, който извиква метода за прилагане действието "Звезда на Клини" на дадена граматика, като предава параметрите въведени от потребителя(уникалния идентификатор на граматика)
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();

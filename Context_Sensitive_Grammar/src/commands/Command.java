@@ -29,10 +29,26 @@ public abstract class Command {
         commands.put("saveAsFile", SaveAsFile::new);
         commands.put("save", SaveFile::new);
     }
+
+    /**
+     * Извикване на метода за командите, когато няма предадени параметри. Създава нова инстанция с "null" стойности
+     * @throws CustomException
+     */
     public void execute()throws CustomException {
         execute(new CommandParameters(null, null));
     }
+    /**
+     * Метода, който всички команди ще пренапишат в техния файл клас
+     * @param parameters
+     * @throws CustomException
+     */
     public abstract void execute(CommandParameters parameters) throws CustomException;
+
+    /**
+     * Главният метод за цялата програма, който служи като главно пространство за обработка на командите и техните параметри
+     * @param grammars
+     * @throws CustomException
+     */
     public static void instructions(List<ContextSensitiveGrammar> grammars) throws CustomException{
         Scanner scanner = new Scanner(System.in);
         String commandLine = "";

@@ -5,6 +5,14 @@ import grammar.ContextSensitiveGrammar;
 import grammar.Rules;
 
 public class PrintGrammar extends Command{
+    /**
+     * Метод, който проверява кои атрибути имат стойности и кои не
+     * @param terminals
+     * @param nonTerminals
+     * @param rules
+     * @param language
+     * @return
+     */
     private static Boolean[] validateGrammar(List<Character> terminals, List<Character> nonTerminals, List<Rules> rules, List<String> language){
         Boolean[] nullValidator = new Boolean[4];
         nullValidator[0] = false;
@@ -14,26 +22,27 @@ public class PrintGrammar extends Command{
         if (terminals.isEmpty()){
             System.out.println("There aren't any terminals added");
             nullValidator[0] = true;
-            //tba
         }
         if (nonTerminals.isEmpty()){
             System.out.println("There aren't any non terminals added");
             nullValidator[1] = true;
-            //tba
         }
         if (rules.isEmpty()){
             System.out.println("There aren't any rules added");
             nullValidator[2] = true;
-            //tba
         }
         if (language.isEmpty()){
             System.out.println("There aren't any words added");
             nullValidator[3] = true;
-            //tba
         }
         return nullValidator;
     }
 
+    /**
+     * Метод, който връща описанието на една граматика в един общ стринг
+     * @param grammar
+     * @return
+     */
     protected static String toString(ContextSensitiveGrammar grammar) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(String.format("Id: %d\n", grammar.getId()));
@@ -79,6 +88,11 @@ public class PrintGrammar extends Command{
         return stringBuilder.toString();
     }
 
+    /**
+     * Пренаписан метод, който изписва дадена граматика, като предава параметрите въведени от потребителя(уникалния идентификатор на граматика)
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException{
         List<String> args = parameters.getArgs();

@@ -5,6 +5,11 @@ import grammar.ContextSensitiveGrammar;
 import java.util.List;
 
 public class PrintAllGrammars extends Command {
+    /**
+     * Пренаписан метод, който изписва всичките граматики
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();

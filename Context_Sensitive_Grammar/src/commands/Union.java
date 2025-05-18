@@ -10,6 +10,12 @@ import java.util.List;
 import java.util.Set;
 
 public class Union extends Command{
+    /**
+     * Метод, който обединява езиците на двете дадени граматики и връща нова
+     * @param g1
+     * @param g2
+     * @return
+     */
     private ContextSensitiveGrammar unionOfTwoGrammars(ContextSensitiveGrammar g1, ContextSensitiveGrammar g2){
         List<Character> terminals;
         List<Character> nonTerminals;
@@ -37,6 +43,12 @@ public class Union extends Command{
         ContextSensitiveGrammar newGrammar = new ContextSensitiveGrammar(terminals, nonTerminals, rules, language);
         return newGrammar;
     }
+
+    /**
+     * Пренаписан метод, който извиква метода за обединение на две граматики, като предава параметрите въведени от потребителя(уникалните идентификатори на граматиките)
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();

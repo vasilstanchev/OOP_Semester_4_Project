@@ -5,13 +5,28 @@ import commands.CustomException;
 import java.util.*;
 
 public class ContextSensitiveGrammar extends Grammar {
+    /**
+     * Конструктор, който създава нова КС граматика с даден списък с терминали
+     * @param terminals
+     */
     public ContextSensitiveGrammar(List<Character> terminals){
         super(terminals);
     }
+    /**
+     * Конструктор, който създава нова КС граматика с всичките атрибути
+     * @param terminals
+     */
     public ContextSensitiveGrammar(List<Character> terminals, List<Character> nonTerminals, List<Rules> rules, List<String> language){
         super(terminals,nonTerminals,rules,language);
     }
 
+    /**
+     * Метод, който връща дадена граматика по даден уникален идентификатор
+     * @param id
+     * @param grammars
+     * @return
+     * @throws CustomException
+     */
     public static ContextSensitiveGrammar returnGrammarById(int id, List<ContextSensitiveGrammar> grammars) throws CustomException{
         for (int i = 0; i < grammars.size(); i++) {
             if (grammars.get(i).getId()==id){
@@ -20,6 +35,13 @@ public class ContextSensitiveGrammar extends Grammar {
         }
         throw new CustomException("The id doesn't exist");
     }
+
+    /**
+     * Метод, който добавя нова граматика в списъка с граматики
+     * @param grammars
+     * @param args
+     * @throws CustomException
+     */
     public static void addGrammar(List<ContextSensitiveGrammar> grammars, List<String> args)throws CustomException {
         if (args.isEmpty()) {
             throw new CustomException("There's no id entered");
@@ -35,11 +57,20 @@ public class ContextSensitiveGrammar extends Grammar {
         grammars.add(grammar);
     }
 
+    /**
+     * Метод, който отпечатва всичките правила за дадена граматика
+     * @param rules
+     */
     public static void printRules(List<Rules> rules){
         for (int i = 0; i < rules.size(); i++) {
             rules.get(i).printRuleInfo();
         }
     }
+
+    /**
+     * Метод, който взима нетерминалната част от дадена описателна част на правило
+     * @param describingPart
+     */
     private void extractNonTerminal(String describingPart){
         for (char letter : describingPart.toCharArray()) {
             if (Character.isUpperCase(letter)){
@@ -49,6 +80,13 @@ public class ContextSensitiveGrammar extends Grammar {
             }
         }
     }
+
+    /**
+     * Метод, който проверява дали терминалите в дадената описателна част са част от азбуката на граматиката
+     * @param describingPart
+     * @return
+     * @throws CustomException
+     */
     private boolean checkDescribingPart(String describingPart)throws CustomException{
         for (char character: describingPart.toCharArray()) {
             if (Character.isLowerCase(character)) {
@@ -59,6 +97,12 @@ public class ContextSensitiveGrammar extends Grammar {
         }
         return true;
     }
+
+    /**
+     * Метод, който добавя ново правило
+     * @param describingPart
+     * @throws CustomException
+     */
     public void addRule(String describingPart) throws CustomException{
         if (!this.checkDescribingPart(describingPart)){
             throw new CustomException("The terminals inside the describing part of the rule don't match with the entered alphabet!");
@@ -96,6 +140,11 @@ public class ContextSensitiveGrammar extends Grammar {
         }
     }
 
+    /**
+     * Метод, който премахва дадено правило по дадено поредно число
+     * @param ruleNumber
+     * @throws CustomException
+     */
     public void removeRule(int ruleNumber) throws CustomException {
         Rules ruleToRemove = Rules.getRuleByNumber(this.rules, ruleNumber);
         if (ruleToRemove == null) {
@@ -106,9 +155,18 @@ public class ContextSensitiveGrammar extends Grammar {
         System.out.println("Rule №" + ruleNumber + " was removed");
     }
 
+    /**
+     * Метод, който отпечатва уникалния идентификатор на граматиката
+     */
     public void listId(){
         System.out.printf("Grammar id: %d\n", this.id);
     }
+
+    /**
+     * Метод, който проверява дали езикът в дадена граматика е празен
+     * @param grammars
+     * @param id
+     */
     public static void isLanguageEmpty(List<ContextSensitiveGrammar> grammars, int id){
         for (int i = 0; i < grammars.size(); i++) {
             if (grammars.get(i).getId() == id){
@@ -118,6 +176,11 @@ public class ContextSensitiveGrammar extends Grammar {
             }
         }
     }
+
+    /**
+     * Метод, който отпечатва всичките начални правила, като дава право на потребителя да направи избор за начално правило
+     * @return
+     */
     private int showRulesWithS(){
         Scanner scanner = new Scanner(System.in);
         int number = 0;
@@ -138,6 +201,10 @@ public class ContextSensitiveGrammar extends Grammar {
         return 0;
     }
 
+    /**
+     * Метод, който добавя нова дума в езикът на дадена граматика
+     * @throws CustomException
+     */
     public void addWord() throws CustomException{
         Scanner scanner = new Scanner(System.in);
         boolean isPossible = Rules.checkForFinal(rules);
@@ -168,17 +235,12 @@ public class ContextSensitiveGrammar extends Grammar {
         }
     }
 
-    private static char findNextAvailableNonTerminal(List<Character> nonTerminals)throws CustomException {
-        char nextNonTerminal = 'A';
-        while (nonTerminals.contains(nextNonTerminal)) {
-            nextNonTerminal++;
-            if (nextNonTerminal > 'Z') {
-                throw new CustomException("All non-terminals are already used");
-            }
-        }
-        return nextNonTerminal;
-    }
-
+    /**
+     * Метод, който превръща дадена граматика да е в нормална форма на Чомски
+     * @param grammar
+     * @return
+     * @throws CustomException
+     */
     public static ContextSensitiveGrammar convertToChomskyNormalForm(ContextSensitiveGrammar grammar) throws CustomException {
         if (Rules.isInChomskyNormalForm(grammar.getRules())) {
             throw new CustomException("Grammar is already in Chomsky normal form.");
@@ -257,6 +319,13 @@ public class ContextSensitiveGrammar extends Grammar {
         return new ContextSensitiveGrammar(terminals, newNonTerminals, finalRules, grammar.getLanguage());
     }
 
+    /**
+     * Метод, който проверява дали дадена дума може да бъде генерирана в граматика, която е в нормална форма на Чомски(Използвайки CYK алгоритъм)
+     * @param grammar
+     * @param word
+     * @return
+     * @throws CustomException
+     */
     public static boolean isWordInLanguage(ContextSensitiveGrammar grammar, String word) throws CustomException{
         if (!Rules.isInChomskyNormalForm(grammar.getRules())) {
             throw new CustomException("Grammar is already in chomsky normal form.");
@@ -303,6 +372,12 @@ public class ContextSensitiveGrammar extends Grammar {
 
         return P[0][n - 1].contains(startSymbol);
     }
+
+    /**
+     * Метод, който прави действието "Звезда на Клини" върху езика на дадена граматика
+     * @param grammar
+     * @return
+     */
     public static ContextSensitiveGrammar kleeneStar(ContextSensitiveGrammar grammar) {
         int maxLength = 3;
         Set<String> result = new HashSet<>();

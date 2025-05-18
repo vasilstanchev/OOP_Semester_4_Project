@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.Set;
 
 public class Concat extends Command{
+    /**
+     * Метод, който конкатенира езиците на двете дадени граматики и връща нова
+     * @param g1
+     * @param g2
+     * @return
+     */
     private ContextSensitiveGrammar concatOfTwoGrammars(ContextSensitiveGrammar g1, ContextSensitiveGrammar g2) {
         Set<Character> setTerminals = new HashSet<>(g1.getTerminals());
         setTerminals.addAll(g2.getTerminals());
@@ -32,6 +38,11 @@ public class Concat extends Command{
         return newGrammar;
     }
 
+    /**
+     * Пренаписан метод, който извиква метода за конкатенация на две граматики, като предава параметрите въведени от потребителя(уникалните идентификатори на граматиките)
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();

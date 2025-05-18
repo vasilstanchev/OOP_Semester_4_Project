@@ -1,6 +1,10 @@
 package commands;
 
 public class Help extends Command{
+    /**
+     * Метод, който връща описанието на всички команди в един общ стринг.
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
@@ -28,6 +32,11 @@ public class Help extends Command{
         stringBuilder.append("\texit - exits the program\n");
         return stringBuilder.toString();
     }
+
+    /**
+     * Пренаписан метод, който извиква метода, който описва всички команди
+     * @param parameters
+     */
     @Override
     public void execute(CommandParameters parameters) {
         System.out.printf(this.toString());

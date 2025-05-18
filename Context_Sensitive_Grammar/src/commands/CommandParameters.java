@@ -3,6 +3,7 @@ import grammar.ContextSensitiveGrammar;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CommandParameters {
@@ -11,9 +12,19 @@ public class CommandParameters {
     private String command;
     private File file;
 
+    /**
+     * Конструктор без параметри, който инициализира празна команда
+     */
     public CommandParameters(){
         command="";
     }
+
+    /**
+     * Конструктор за подадените параметри, който зарежда всяка променлива в дадения атрибут
+     * @param grammars
+     * @param commandLine
+     * @throws CustomException
+     */
     public CommandParameters(List<ContextSensitiveGrammar> grammars, String commandLine)throws CustomException {
         this.grammars = grammars;
         this.args=new ArrayList<>();
@@ -27,22 +38,38 @@ public class CommandParameters {
         }
     }
 
+    /**
+     * Метод, който връща копие на списък от граматики
+     * @return
+     */
     public List<ContextSensitiveGrammar> getGrammars() {
-        return grammars;
+        return Collections.unmodifiableList(grammars);
     }
-
+    /**
+     * Метод, който връща копие на списъка от аргументите към дадена команда
+     * @return
+     */
     public List<String> getArgs() {
-        return args;
+        return Collections.unmodifiableList(args);
     }
-
+    /**
+     * Метод, който връща името на дадена команда
+     * @return
+     */
     public String getCommand() {
         return command;
     }
-
+    /**
+     * Метод, който връща обектът към даден файл
+     * @return
+     */
     public File getFile() {
         return file;
     }
-
+    /**
+     * Метод, който обновява обекта към даден файл
+     * @param fileName
+     */
     public void setFile(File fileName) {
         this.file = file;
     }

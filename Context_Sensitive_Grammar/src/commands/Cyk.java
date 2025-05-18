@@ -5,6 +5,11 @@ import grammar.ContextSensitiveGrammar;
 import java.util.List;
 
 public class Cyk extends Command{
+    /**
+     * Пренаписан метод, който извиква метода за проверка дали дадена дума е в нормализирана граматика на Чомски, като предава параметрите въведени от потребителя(уникалния идентификатор на граматика)
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();

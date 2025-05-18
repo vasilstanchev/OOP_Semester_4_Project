@@ -6,6 +6,11 @@ import java.io.*;
 import java.util.List;
 
 public class SaveFile extends Command{
+    /**
+     * Метод за записване на списък от граматики във файл
+     * @param grammars
+     * @param file
+     */
     public static void saveList(List<ContextSensitiveGrammar> grammars, File file) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(grammars);
@@ -14,6 +19,12 @@ public class SaveFile extends Command{
             System.out.println("Error while saving: " + e.getMessage());
         }
     }
+
+    /**
+     * Метод за записване на граматика във файл
+     * @param grammar
+     * @param file
+     */
     public void saveGrammar(ContextSensitiveGrammar grammar, File file) {
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(grammar);
@@ -22,6 +33,12 @@ public class SaveFile extends Command{
             System.out.println("Error while saving: " + e.getMessage());
         }
     }
+
+    /**
+     * Пренаписан метод, който извиква метода за записване във файл, като предава името на файла, въведен от потребителя
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();

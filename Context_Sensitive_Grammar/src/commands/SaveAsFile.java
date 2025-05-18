@@ -6,6 +6,11 @@ import java.io.File;
 import java.util.List;
 
 public class SaveAsFile extends Command{
+    /**
+     * Пренаписан метод, който извиква метода за записване във файл, като предава пътеката на файла, въведена от потребителя
+     * @param parameters
+     * @throws CustomException
+     */
     @Override
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();

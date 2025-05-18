@@ -31,14 +31,14 @@ public abstract class Command {
     }
 
     /**
-     * Извикване на метода за командите, когато няма предадени параметри. Създава нова инстанция с "null" стойности
+     * Извикване на метода за командите, когато няма подадени параметри. Създава нова инстанция с "null" стойности
      * @throws CustomException
      */
     public void execute()throws CustomException {
         execute(new CommandParameters(null, null));
     }
     /**
-     * Метода, който всички команди ще пренапишат в техния файл клас
+     * Абстрактен метод за изпълнение на команда с параметри.
      * @param parameters
      * @throws CustomException
      */

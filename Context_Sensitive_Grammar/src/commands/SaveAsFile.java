@@ -15,16 +15,27 @@ public class SaveAsFile extends Command{
     public void execute(CommandParameters parameters) throws CustomException {
         List<String> args = parameters.getArgs();
         List<ContextSensitiveGrammar> grammars = parameters.getGrammars();
-        if (args.size() != 1){
+        String filePath;
+        if (args.isEmpty()){
             throw new CustomException("The filepath is missing");
         }
-        else {
-            try {
-                File newFile = OpenFile.resolveFilePath(args.get(0));
-                SaveFile.saveList(grammars, newFile);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+        if (args.size()>1){
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(args.get(0));
+            stringBuilder.append(" ");
+            stringBuilder.append(args.get(1));
+            filePath= stringBuilder.toString();
         }
+        else {
+            filePath = args.get(0);
+        }
+        try {
+            System.out.println(filePath);
+            File newFile = OpenFile.resolveFilePath(filePath);
+            SaveFile.saveList(grammars, newFile);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }

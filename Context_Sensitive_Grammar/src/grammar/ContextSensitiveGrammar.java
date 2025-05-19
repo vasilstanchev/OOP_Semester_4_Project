@@ -332,7 +332,7 @@ public class ContextSensitiveGrammar extends Grammar implements Serializable {
      */
     public static boolean isWordInLanguage(ContextSensitiveGrammar grammar, String word) throws CustomException{
         if (!Rules.isInChomskyNormalForm(grammar.getRules())) {
-            throw new CustomException("Grammar is already in chomsky normal form.");
+            throw new CustomException("Grammar isn't in chomsky normal form.");
         }
 
         int n = word.length();

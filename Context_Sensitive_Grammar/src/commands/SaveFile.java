@@ -13,9 +13,21 @@ public class SaveFile extends Command{
      * @param file
      */
     public static void saveList(List<ContextSensitiveGrammar> grammars, File file) {
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
-            out.writeObject(grammars);
-            System.out.println("The grammars were save successfully");
+        try {
+            File parentDir = file.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                boolean dirsCreated = parentDir.mkdirs();
+                if (!dirsCreated) {
+                    System.out.println("Failed to create directories.");
+                    return;
+                }
+            }
+
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file))) {
+                out.writeObject(grammars);
+                System.out.println("The grammars were saved successfully");
+            }
+
         } catch (IOException e) {
             System.out.println("Error while saving: " + e.getMessage());
         }

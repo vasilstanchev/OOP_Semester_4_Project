@@ -1,8 +1,9 @@
 package grammar;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Rules {
+public class Rules implements Serializable {
     private int number;
     private char nonTerminal;
     private String describingPart;

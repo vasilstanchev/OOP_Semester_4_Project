@@ -35,7 +35,7 @@ public abstract class Command {
      * @throws CustomException
      */
     public void execute()throws CustomException {
-        execute(new CommandParameters(null, null));
+        execute(new CommandParameters(null, null,null));
     }
     /**
      * Абстрактен метод за изпълнение на команда с параметри.
@@ -62,7 +62,7 @@ public abstract class Command {
                 System.out.printf("> ");
                 commandLine = scanner.nextLine();
 
-                context = new CommandParameters(grammars, commandLine);
+                context = new CommandParameters(grammars, commandLine,currentFile);
                 context.setFile(currentFile);
                 commandName = context.getCommand();
                 Supplier<? extends Command> commandSupplier = commands.get(commandName);
@@ -70,6 +70,7 @@ public abstract class Command {
                 if (commandSupplier != null) {
                     Command command = commandSupplier.get();
                     command.execute(context);
+                    grammars = context.getGrammars();
                     currentFile = context.getFile();
                 } else if (commandName.contains("exit")) {
                     System.out.println("Exiting...");

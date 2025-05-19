@@ -2,9 +2,10 @@ package grammar;
 
 import commands.CustomException;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class ContextSensitiveGrammar extends Grammar {
+public class ContextSensitiveGrammar extends Grammar implements Serializable {
     /**
      * Конструктор, който създава нова КС граматика с даден списък с терминали
      * @param terminals
@@ -88,6 +89,9 @@ public class ContextSensitiveGrammar extends Grammar {
      * @throws CustomException
      */
     private boolean checkDescribingPart(String describingPart)throws CustomException{
+        if(describingPart.equals("final")){
+            return true;
+        }
         for (char character: describingPart.toCharArray()) {
             if (Character.isLowerCase(character)) {
                 if (!this.terminals.contains(character)) {

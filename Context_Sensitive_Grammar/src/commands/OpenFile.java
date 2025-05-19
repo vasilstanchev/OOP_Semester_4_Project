@@ -31,8 +31,11 @@ public class OpenFile extends Command{
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(file))) {
             Object obj = in.readObject();
             if (obj instanceof List<?>) {
-                System.out.println("The grammar was loaded");
-                return (List<ContextSensitiveGrammar>) obj;
+                List<?> rawList = (List<?>) obj;
+                System.out.println("The grammar was loaded. Total: " + rawList.size());
+                return (List<ContextSensitiveGrammar>) rawList;
+            } else {
+                System.out.println("File did not contain a List");
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("An error occured while reading the file: " + e.getMessage());
@@ -54,8 +57,10 @@ public class OpenFile extends Command{
         }
         try {
             String fileNameOrPath = args.get(0);
-            parameters.setFile(OpenFile.resolveFilePath(fileNameOrPath));
-            grammars = this.loadList(parameters.getFile());
+            File file = OpenFile.resolveFilePath(fileNameOrPath);
+            parameters.setFile(file);
+            grammars = this.loadList(file);
+            parameters.setGrammars(grammars);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

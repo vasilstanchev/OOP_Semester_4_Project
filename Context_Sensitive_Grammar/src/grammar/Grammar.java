@@ -1,11 +1,12 @@
 package grammar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public abstract class Grammar {
+public abstract class Grammar implements Serializable {
     protected int id;
     protected List<Character> terminals;
     protected List<Character> nonTerminals;

@@ -25,7 +25,7 @@ public class CommandParameters {
      * @param commandLine
      * @throws CustomException
      */
-    public CommandParameters(List<ContextSensitiveGrammar> grammars, String commandLine)throws CustomException {
+    public CommandParameters(List<ContextSensitiveGrammar> grammars, String commandLine, File file)throws CustomException {
         this.grammars = grammars;
         this.args=new ArrayList<>();
         if (commandLine == null || commandLine.isEmpty()){
@@ -36,6 +36,7 @@ public class CommandParameters {
         for (int i = 1; i < commandElements.length; i++) {
             this.args.add(commandElements[i]);
         }
+        this.file=file;
     }
 
     /**
@@ -68,9 +69,17 @@ public class CommandParameters {
     }
     /**
      * Метод, който обновява обекта към даден файл
-     * @param fileName
+     * @param file
      */
-    public void setFile(File fileName) {
+    public void setFile(File file) {
         this.file = file;
+    }
+
+    /**
+     * Метод, който обновява списъка с граматики
+     * @param grammars
+     */
+    public void setGrammars(List<ContextSensitiveGrammar> grammars) {
+        this.grammars = grammars;
     }
 }

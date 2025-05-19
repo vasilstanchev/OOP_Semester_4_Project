@@ -66,6 +66,7 @@ public abstract class Command {
                 context.setFile(currentFile);
                 commandName = context.getCommand();
                 Supplier<? extends Command> commandSupplier = commands.get(commandName);
+
                 if (commandSupplier != null) {
                     Command command = commandSupplier.get();
                     command.execute(context);

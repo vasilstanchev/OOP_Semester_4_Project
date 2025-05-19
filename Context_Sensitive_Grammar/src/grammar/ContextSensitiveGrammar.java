@@ -44,7 +44,7 @@ public class ContextSensitiveGrammar extends Grammar {
      */
     public static void addGrammar(List<ContextSensitiveGrammar> grammars, List<String> args)throws CustomException {
         if (args.isEmpty()) {
-            throw new CustomException("There's no id entered");
+            throw new CustomException("There weren't any terminals provided");
         }
         List<Character> terminals = new ArrayList<>();
         int count = args.size();

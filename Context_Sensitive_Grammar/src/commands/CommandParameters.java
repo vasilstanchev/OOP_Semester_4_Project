@@ -39,18 +39,18 @@ public class CommandParameters {
     }
 
     /**
-     * Метод, който връща копие на списък от граматики
+     * Метод, който връща списък от граматики
      * @return
      */
     public List<ContextSensitiveGrammar> getGrammars() {
-        return Collections.unmodifiableList(grammars);
+        return grammars;
     }
     /**
-     * Метод, който връща копие на списъка от аргументите към дадена команда
+     * Метод, който връща списъка от аргументите към дадена команда
      * @return
      */
     public List<String> getArgs() {
-        return Collections.unmodifiableList(args);
+        return args;
     }
     /**
      * Метод, който връща името на дадена команда
